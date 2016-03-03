@@ -27,18 +27,17 @@ function searchRelated() {
         var endpoint = 'artists/' + artist.id + '/related-artists'
         var searchID = getFromApi(endpoint)
 
-    searchID.on('end', function(item) {
-        artist.related = item.artists;
-        console.log(item.artists)
-        res.json(artist);
+        searchID.on('end', function(item) {
+            artist.related = item.artists;
+            console.log(item.artists)
+            res.json(artist);
        
-    });
+        });
 
-    searchID.on('error', function(code) {
-        res.sendStatus(code);
-    });
-}
-
+        searchID.on('error', function(code) {
+            res.sendStatus(code);
+        });
+    }
 }
 
 var related = new searchRelated() 
@@ -53,9 +52,6 @@ app.get('/search/:name', function(req, res) {
     searchReq.on('end', function(item) {
         var artist = item.artists.items[0];
         related.search(artist, res)
-        
-        
-
     });
 
     searchReq.on('error', function(code) {
